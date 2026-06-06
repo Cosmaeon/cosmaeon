@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSMAEON — Independent Institutional Portfolio Intelligence</title>
+    <meta name="description" content="Independent CIO intelligence layer for private wealth and family offices. Objective risk modeling, portfolio conflict auditing, and fee-only fiduciary guidance.">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <!-- 1. NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <a href="index.html" class="brand-logo">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width: 32px; height: 32px;">
+                    <!-- Infinite Loop Path -->
+                    <path d="M 50 50 C 35 25, 15 25, 15 50 C 15 75, 35 75, 50 50 C 65 25, 85 25, 85 50 C 85 75, 65 75, 50 50 Z" stroke="url(#paint0_linear)" stroke-width="6" stroke-linecap="round"/>
+                    <!-- Orbiting Cosmos Dots -->
+                    <circle cx="15" cy="50" r="4.5" fill="var(--text-primary)" />
+                    <circle cx="85" cy="50" r="4.5" fill="var(--text-primary)" />
+                    <circle cx="32" cy="37" r="3.5" fill="var(--color-accent)" />
+                    <circle cx="68" cy="63" r="3.5" fill="var(--color-accent)" />
+                    <defs>
+                        <linearGradient id="paint0_linear" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="var(--text-primary)"/>
+                            <stop offset="0.5" stop-color="var(--color-accent)"/>
+                            <stop offset="1" stop-color="var(--color-border-focus)"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span>COSMAEON</span>
+            </a>
+            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                <ul class="nav-links">
+                    <li><a href="#problem">The Conflicted Landscape</a></li>
+                    <li><a href="#serve">Who We Serve</a></li>
+                    <li><a href="#audit">Conflict Simulator</a></li>
+                    <li><a href="dashboard.html" class="btn btn-secondary" style="padding: 0.5rem 1.5rem; font-size: 0.75rem;">Client Portal</a></li>
+                </ul>
+                
+                <!-- Quick Theme & Font Switcher -->
+                <div style="display: flex; gap: 0.35rem; align-items: center; border-left: 1px solid var(--color-border); padding-left: 1.25rem;">
+                    <span style="font-size: 0.7rem; color: var(--text-muted); cursor: default;" title="Layout Controls">⚙</span>
+                    <select id="theme-select" style="background: var(--color-bg-base); border: 1px solid var(--color-border); color: var(--text-secondary); font-size: 0.65rem; padding: 0.2rem 0.4rem; cursor: pointer; outline: none; border-radius: 4px;">
+                        <option value="slate" selected>Slate</option>
+                        <option value="sovereign">Sovereign</option>
+                        <option value="light">Light</option>
+                    </select>
+                    <select id="font-select" style="background: var(--color-bg-base); border: 1px solid var(--color-border); color: var(--text-secondary); font-size: 0.65rem; padding: 0.2rem 0.4rem; cursor: pointer; outline: none; border-radius: 4px;">
+                        <option value="technical" selected>Sans</option>
+                        <option value="editorial">Serif</option>
+                        <option value="mono">Mono</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO SECTION -->
+    <header class="section">
+        <div class="container" style="text-align: center; max-width: 900px; padding: 4rem 2rem;">
+            <span class="badge">Independent CIO Intelligence</span>
+            <h1>Independent Institutional Portfolio Intelligence</h1>
+            <p style="font-size: 1.25rem; margin-bottom: 2.5rem;">
+                Private wealth is overserved with products and underserved with independent judgment. We help wealthy families audit hidden conflicts, manage systemic risk, and make long-term allocation decisions.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="#audit" class="btn btn-primary">Audit Your Portfolio</a>
+                <a href="#capabilities" class="btn btn-secondary">Our Framework</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. THE PROBLEM SECTION -->
+    <section id="problem" class="section section-alt">
+        <div class="container">
+            <div style="max-width: 800px; margin-bottom: 4rem;">
+                <span class="badge">The Market Failure</span>
+                <h2>The Conflicted Landscape</h2>
+                <p>
+                    Affluent families face fragmented, conflicted advice. Brokers, distributors, insurance agents, and private banks are structured around product sales. Each player optimizes distribution commissions, leaving families to shoulder uncoordinated risks.
+                </p>
+            </div>
+            
+            <div class="grid-12">
+                <div class="panel" style="grid-column: span 4;">
+                    <h3 style="color: var(--color-accent); margin-bottom: 0.5rem;">01</h3>
+                    <h4>Conflicted Push</h4>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        High-commission products like regular-plan mutual funds, structured notes, and opaque insurance schemes are pushed over cheaper, direct alternatives.
+                    </p>
+                </div>
+                <div class="panel" style="grid-column: span 4;">
+                    <h3 style="color: var(--color-accent); margin-bottom: 0.5rem;">02</h3>
+                    <h4>Fragmented Views</h4>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        No single provider analyzes the whole-family outcome. Tax, legal structures, and global portfolios remain entirely siloed.
+                    </p>
+                </div>
+                <div class="panel" style="grid-column: span 4;">
+                    <h3 style="color: var(--color-accent); margin-bottom: 0.5rem;">03</h3>
+                    <h4>Hidden Correlation</h4>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        Portfolios spread across multiple banks often hold identical underlying assets, leaving the family exposed to concentrated systemic defaults.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. WHO WE SERVE (B2C & B2B SEGMENTS) -->
+    <section id="serve" class="section">
+        <div class="container">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto 4rem auto;">
+                <span class="badge">Who We Serve</span>
+                <h2>Fiduciary Portfolio Intelligence</h2>
+                <p>
+                    We operate dedicated, conflict-free analytics pipelines tailored for both private family offices (B2C) and institutional treasuries (B2B).
+                </p>
+                
+                <!-- B2C / B2B Tab Switcher -->
+                <div style="display: inline-flex; border: 1px solid var(--color-border); padding: 0.35rem; border-radius: 100px; margin-top: 1.5rem; background-color: var(--color-bg-alt);">
+                    <button type="button" id="tab-b2c" class="btn" style="padding: 0.6rem 2rem; font-size: 0.75rem; background-color: var(--color-accent); color: var(--color-bg-base); border-radius: 100px;">B2C Family Office</button>
+                    <button type="button" id="tab-b2b" class="btn btn-secondary" style="padding: 0.6rem 2rem; font-size: 0.75rem; border: none; border-radius: 100px; background: transparent;">B2B Institutional</button>
+                </div>
+            </div>
+
+            <!-- B2C Capabilities Segment -->
+            <div id="segment-b2c" class="grid-12">
+                <div class="panel" style="grid-column: span 6; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span class="badge" style="font-size: 0.65rem; padding: 0.25rem 0.75rem;">Private Family Office</span>
+                        <h3>B2C Wealth Preservation</h3>
+                        <p>
+                            We analyze multi-generational family portfolios, auditing hidden distributor commission leakages and mapping overlapping stock exposures across siloed advisors.
+                        </p>
+                    </div>
+                    <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem; margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; color: var(--color-accent);">Conflict Auditing</span>
+                        <span style="font-size: 0.8rem; font-weight: 500;">Generational Guardrails</span>
+                    </div>
+                </div>
+
+                <div class="panel" style="grid-column: span 6; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span class="badge" style="font-size: 0.65rem; padding: 0.25rem 0.75rem;">Family Governance</span>
+                        <h3>Direct Alignment</h3>
+                        <p>
+                            We assist family boards in setting objective asset allocation guidelines, preventing emotional buy/sell churns during macro liquidity regime shifts.
+                        </p>
+                    </div>
+                    <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem; margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; color: var(--color-accent);">Fiduciary Advisory</span>
+                        <span style="font-size: 0.8rem; font-weight: 500;">Flat-Retainer Structure</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B2B Capabilities Segment (Hidden by Default) -->
+            <div id="segment-b2b" class="grid-12" style="display: none;">
+                <div class="panel" style="grid-column: span 6; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span class="badge" style="font-size: 0.65rem; padding: 0.25rem 0.75rem;">Treasury & SWF</span>
+                        <h3>B2B Liquidity Stress-Testing</h3>
+                        <p>
+                            We build institutional cash-flow models, stress-testing allocations against systemic defaults, rate contractions, and localized asset correlation crises.
+                        </p>
+                    </div>
+                    <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem; margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; color: var(--color-accent);">Credit Risk Models</span>
+                        <span style="font-size: 0.8rem; font-weight: 500;">Sovereign Allocations</span>
+                    </div>
+                </div>
+
+                <div class="panel" style="grid-column: span 6; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span class="badge" style="font-size: 0.65rem; padding: 0.25rem 0.75rem;">Institutional Access</span>
+                        <h3>Mandate Compliance Logs</h3>
+                        <p>
+                            We provide third-party asset manager screening, auditing fee metrics, and checking compliance mandates against investment committee directives.
+                        </p>
+                    </div>
+                    <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem; margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.8rem; color: var(--color-accent);">Compliance Audit</span>
+                        <span style="font-size: 0.8rem; font-weight: 500;">Immutable Logs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. INTERACTIVE CONFLICT, OVERLAP & FEE SIMULATOR -->
+    <section id="audit" class="section section-alt">
+        <div class="container">
+            
+            <div style="max-width: 800px; margin-bottom: 4rem;">
+                <span class="badge">Systemic Misalignment Simulator</span>
+                <h2>The Institutional Conflict & Overlap Engine</h2>
+                <p>
+                    See how relationship managers, broking platforms, and insurance agents generate massive portfolio overlaps and fee leakages, making long-term wealth creation structurally misaligned with your interests.
+                </p>
+            </div>
+
+            <div class="grid-12">
+                <!-- Left Input Panel (5 Columns) -->
+                <div class="panel" style="grid-column: span 5; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="margin-bottom: 1.5rem;">1. Allocation Structure</h3>
+                        
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label for="sim-aum" class="form-label" style="font-size: 0.75rem;">Total Portfolio AUM (₹ Crores)</label>
+                            <input type="number" id="sim-aum" class="form-control" value="100" min="5" max="10000">
+                        </div>
+
+                        <!-- Slider 1: Bank RM -->
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <label for="slide-bank" class="form-label" style="font-size: 0.7rem; margin: 0;">Bank Relationship Manager (%)</label>
+                                <span id="val-bank" style="font-size: 0.8rem; color: var(--color-accent); font-family: monospace;">40%</span>
+                            </div>
+                            <input type="range" id="slide-bank" min="0" max="100" value="40" style="accent-color: var(--color-accent); width: 100%;">
+                            <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Pushes high-cost regular plans & PMS (Avg. 1.8% Fee Drag)</span>
+                        </div>
+
+                        <!-- Slider 2: Brokers -->
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <label for="slide-broker" class="form-label" style="font-size: 0.7rem; margin: 0;">Discount Brokers & Apps (%)</label>
+                                <span id="val-broker" style="font-size: 0.8rem; color: var(--color-accent); font-family: monospace;">40%</span>
+                            </div>
+                            <input type="range" id="slide-broker" min="0" max="100" value="40" style="accent-color: var(--color-accent); width: 100%;">
+                            <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Encourages hot stock tips & overlapping mutual funds (Avg. 1.0% Drag)</span>
+                        </div>
+
+                        <!-- Slider 3: Insurance Agents -->
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <label for="slide-agent" class="form-label" style="font-size: 0.7rem; margin: 0;">Traditional Insurance Agents (%)</label>
+                                <span id="val-agent" style="font-size: 0.8rem; color: var(--color-accent); font-family: monospace;">20%</span>
+                            </div>
+                            <input type="range" id="slide-agent" min="0" max="100" value="20" style="accent-color: var(--color-accent); width: 100%;">
+                            <span style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Traditional ULIPs / Endowment plans (Avg. 4.0% Upfront Kickbacks)</span>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem; text-align: center;">
+                        <span id="allocation-warning" style="font-size: 0.75rem; color: var(--color-danger); display: none; margin-bottom: 1rem; font-weight: bold;">[Warning: Allocation must sum to exactly 100%]</span>
+                        <button id="btn-recalculate-sim" class="btn btn-primary" style="width: 100%;">Run Misalignment Audit</button>
+                    </div>
+                </div>
+
+                <!-- Right Output Panel (7 Columns) -->
+                <div class="panel" style="grid-column: span 7; display: flex; flex-direction: column; justify-content: space-between; background-color: var(--color-bg-alt);">
+                    <div>
+                        <h3 style="margin-bottom: 1.5rem;">2. Portfolio Diagnostics</h3>
+                        
+                        <!-- Visual Overlap Grid -->
+                        <div style="margin-bottom: 2rem;">
+                            <h4 style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">Stock Holding Overlap Factor</h4>
+                            
+                            <!-- Overlap Bar 1: Reliance -->
+                            <div style="margin-bottom: 0.75rem;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                    <span>Reliance Industries Ltd. (Double Exposure Overlap)</span>
+                                    <strong id="overlap-reliance" style="color: var(--color-danger);">24% Overlap</strong>
+                                </div>
+                                <div style="width: 100%; height: 6px; background-color: var(--color-border); border-radius: 3px; overflow: hidden;">
+                                    <div id="bar-reliance" style="width: 75%; height: 100%; background-color: var(--color-danger); transition: var(--transition-smooth);"></div>
+                                </div>
+                            </div>
+
+                            <!-- Overlap Bar 2: HDFC Bank -->
+                            <div style="margin-bottom: 0.75rem;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                    <span>HDFC Bank Ltd. (Duplicate Capital Allocation)</span>
+                                    <strong id="overlap-hdfc" style="color: var(--color-danger);">18% Overlap</strong>
+                                </div>
+                                <div style="width: 100%; height: 6px; background-color: var(--color-border); border-radius: 3px; overflow: hidden;">
+                                    <div id="bar-hdfc" style="width: 60%; height: 100%; background-color: var(--color-danger); transition: var(--transition-smooth);"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cost/Fee Audit Grid -->
+                        <div class="grid-12" style="gap: 1rem; margin-bottom: 2rem;">
+                            <div class="panel" style="grid-column: span 6; padding: 1.25rem; background-color: var(--color-bg-panel); margin: 0; text-align: center;">
+                                <span class="form-label" style="font-size: 0.65rem;">Annual Fee Leakage</span>
+                                <h3 id="sim-annual-leak" style="color: var(--color-danger); margin: 0.5rem 0;">₹1.60 Cr</h3>
+                                <p style="font-size: 0.75rem; margin: 0; color: var(--text-muted);">Eroded in kickback commissions</p>
+                            </div>
+                            <div class="panel" style="grid-column: span 6; padding: 1.25rem; background-color: var(--color-bg-panel); margin: 0; text-align: center;">
+                                <span class="form-label" style="font-size: 0.65rem;">10-Year Opportunity Loss</span>
+                                <h3 id="sim-ten-year-loss" style="color: var(--color-danger); margin: 0.5rem 0;">₹23.50 Cr</h3>
+                                <p style="font-size: 0.75rem; margin: 0; color: var(--text-muted);">compounded at 8.5% loss</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fiduciary Resolution Compare -->
+                    <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <span class="form-label" style="font-size: 0.65rem; margin: 0;">Fiduciary Retainer (Cosmaeon)</span>
+                            <h4 id="sim-cosmaeon-fee" style="color: var(--color-success); margin: 0.25rem 0;">₹5.00 Lakhs</h4>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">Independent, direct alignment</span>
+                        </div>
+                        <a href="#contact" class="btn btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 0.75rem; border-radius: 4px;">Request Audit Review</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. CONTACT / PRIVATE ONBOARDING -->
+    <section id="contact" class="section">
+        <div class="container" style="max-width: 700px; text-align: center;">
+            <span class="badge">Mandate Registration</span>
+            <h2>Discreet Onboarding</h2>
+            <p>
+                COSMAEON serves a limited number of family offices to ensure absolute fidelity and alignment. Enter your credentials to request a diagnostic mandate.
+            </p>
+            
+            <div class="panel" style="text-align: left; margin-top: 3rem;">
+                <form id="onboard-form" onsubmit="alert('Fiduciary invitation request submitted securely.'); return false;">
+                    <div class="form-group">
+                        <label for="contact-name" class="form-label">Trustee / Representative Name</label>
+                        <input type="text" id="contact-name" class="form-control" required placeholder="e.g. Vikramaditya Birla">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-email" class="form-label">Secure Business Email</label>
+                        <input type="email" id="contact-email" class="form-control" required placeholder="e.g. trustee@birlaoffice.in">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-aum" class="form-label">Approximate Multi-Asset Capital (₹ Crores)</label>
+                        <select id="contact-aum" class="form-control" required>
+                            <option value="" disabled selected>Select range</option>
+                            <option value="50-100">₹50 Crore to ₹100 Crore</option>
+                            <option value="100-500">₹100 Crore to ₹500 Crore</option>
+                            <option value="500+">₹500 Crore +</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Submit Invitation Request</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="app-footer">
+        <div class="container" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
+            <div>
+                <a href="index.html" class="brand-logo" style="font-size: 1.2rem; color: var(--text-primary); margin-bottom: 1rem; display: inline-flex;">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width: 24px; height: 24px;">
+                        <path d="M 50 50 C 35 25, 15 25, 15 50 C 15 75, 35 75, 50 50 C 65 25, 85 25, 85 50 C 85 75, 65 75, 50 50 Z" stroke="url(#paint0_linear_footer)" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="15" cy="50" r="4.5" fill="var(--text-primary)" />
+                        <circle cx="85" cy="50" r="4.5" fill="var(--text-primary)" />
+                        <circle cx="32" cy="37" r="3.5" fill="var(--color-accent)" />
+                        <circle cx="68" cy="63" r="3.5" fill="var(--color-accent)" />
+                        <defs>
+                            <linearGradient id="paint0_linear_footer" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="var(--text-primary)"/>
+                                <stop offset="0.5" stop-color="var(--color-accent)"/>
+                                <stop offset="1" stop-color="var(--color-border-focus)"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span>COSMAEON</span>
+                </a>
+                    Independent Institutional Portfolio Intelligence layer for Private Wealth. Fiduciary-aligned advisors.
+                </p>
+            </div>
+            <div>
+                <h4 style="color: var(--text-secondary); text-transform: uppercase; font-size: 0.8rem; margin-bottom: 1rem;">Fiduciary Mandate</h4>
+                <p style="margin: 0; color: var(--text-muted);">Registered fee-only Investment Advisor (RIA).</p>
+                <p style="margin: 0; color: var(--text-muted);">Fiduciary registration verification details available on request.</p>
+            </div>
+            <div>
+                <p>&copy; 2026 COSMAEON. All rights reserved.</p>
+                <p>Designed for multi-generational capital preservation. <a href="admin.html" style="color: var(--text-muted); text-decoration: underline; margin-left: 0.5rem; font-size: 0.75rem;">Operator Portal</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="diagnostics.js"></script>
+</body>
+</html>

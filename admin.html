@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSMAEON Operator Portal — Security Command Center</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        /* Security Terminal styling override */
+        .terminal-box {
+            background-color: var(--color-bg-console);
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 1.5rem;
+            height: 320px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            line-height: 1.6;
+        }
+        .log-entry {
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 0.25rem;
+        }
+        .log-blocked {
+            color: var(--color-danger);
+            font-weight: bold;
+        }
+        .log-warn {
+            color: var(--color-warning);
+        }
+        .log-info {
+            color: var(--color-success);
+        }
+        /* Lock screen overlay */
+        .lock-screen {
+            position: fixed;
+            inset: 0;
+            background-color: var(--color-bg-base);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(20px);
+            transition: var(--transition-smooth);
+        }
+        .lock-modal {
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+        /* Simple loader animation */
+        .loader-ring {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--color-border);
+            border-radius: 50%;
+            border-top-color: var(--color-accent);
+            animation: spin 1s linear infinite;
+            margin: 1.5rem auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="theme-slate font-technical">
+
+    <!-- 1. WEBAUTHN SIMULATED LOCK OVERLAY -->
+    <div id="auth-lock-screen" class="lock-screen">
+        <div class="panel lock-modal">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 50px; height: 50px; margin-bottom: 1.5rem;">
+                <path d="M 50 50 C 35 25, 15 25, 15 50 C 15 75, 35 75, 50 50 C 65 25, 85 25, 85 50 C 85 75, 65 75, 50 50 Z" stroke="url(#lock_grad)" stroke-width="6" stroke-linecap="round"/>
+                <circle cx="15" cy="50" r="4.5" fill="var(--text-primary)" />
+                <circle cx="85" cy="50" r="4.5" fill="var(--text-primary)" />
+                <defs>
+                    <linearGradient id="lock_grad" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="var(--text-primary)"/>
+                        <stop offset="0.5" stop-color="var(--color-accent)"/>
+                        <stop offset="1" stop-color="var(--color-border-focus)"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            
+            <h3 style="margin-bottom: 1rem;">Mandate Authorization Required</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">
+                Secure hardware credentials (YubiKey or Passkey WebAuthn validation) are required to access COSMAEON Fiduciary Node Controls.
+            </p>
+
+            <div class="loader-ring" id="auth-loader"></div>
+            
+            <button type="button" id="btn-auth-simulate" class="btn btn-primary" style="width: 100%;">
+                Authenticate Security Key
+            </button>
+            <div style="margin-top: 1rem;">
+                <a href="index.html" style="font-size: 0.8rem; color: var(--text-muted); text-decoration: underline;">Return to Homepage</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. NAVBAR (HIDDEN UNTIL AUTHENTICATED) -->
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button type="button" class="sidebar-toggle-btn" id="btn-sidebar-toggle" aria-label="Toggle Sidebar">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <a href="index.html" class="brand-logo">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width: 32px; height: 32px;">
+                        <path d="M 50 50 C 35 25, 15 25, 15 50 C 15 75, 35 75, 50 50 C 65 25, 85 25, 85 50 C 85 75, 65 75, 50 50 Z" stroke="url(#paint0_linear)" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="15" cy="50" r="4.5" fill="var(--text-primary)" />
+                        <circle cx="85" cy="50" r="4.5" fill="var(--text-primary)" />
+                        <circle cx="32" cy="37" r="3.5" fill="var(--color-accent)" />
+                        <circle cx="68" cy="63" r="3.5" fill="var(--color-accent)" />
+                        <defs>
+                            <linearGradient id="paint0_linear" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="var(--text-primary)"/>
+                                <stop offset="0.5" stop-color="var(--color-accent)"/>
+                                <stop offset="1" stop-color="var(--color-border-focus)"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span>COSMAEON</span>
+                </a>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                <span style="font-size: 0.8rem; color: var(--color-success); background: var(--color-success-dim); padding: 0.35rem 0.75rem; border-radius: 4px; border: 1px solid var(--color-success);">
+                    FIDO2 Token Authorized: <strong>Operator #09</strong>
+                </span>
+                <a href="#" id="btn-lock-console" style="font-family: var(--font-serif); font-size: 0.8rem; text-transform: uppercase;">Lock Panel</a>
+                
+                <!-- Quick Theme & Font Switcher -->
+                <div style="display: flex; gap: 0.35rem; align-items: center; border-left: 1px solid var(--color-border); padding-left: 1.25rem;">
+                    <span style="font-size: 0.7rem; color: var(--text-muted); cursor: default;" title="Layout Controls">⚙</span>
+                    <select id="theme-select" style="background: var(--color-bg-base); border: 1px solid var(--color-border); color: var(--text-secondary); font-size: 0.65rem; padding: 0.2rem 0.4rem; cursor: pointer; outline: none; border-radius: 4px;">
+                        <option value="slate">Slate</option>
+                        <option value="sovereign">Sovereign</option>
+                        <option value="light">Light</option>
+                    </select>
+                    <select id="font-select" style="background: var(--color-bg-base); border: 1px solid var(--color-border); color: var(--text-secondary); font-size: 0.65rem; padding: 0.2rem 0.4rem; cursor: pointer; outline: none; border-radius: 4px;">
+                        <option value="technical">Sans</option>
+                        <option value="editorial">Serif</option>
+                        <option value="mono">Mono</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. MAIN APP FRAMEWORK -->
+    <div class="app-layout">
+        <!-- Collapsible Left Sidebar -->
+        <aside class="sidebar" id="app-sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active">
+                    <a href="#waf-controls-panel">
+                        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                        <span>Security Shields</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#threat-logs-panel">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                        <span>Threat Logs</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#mandates-list-panel">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                        <span>Mandates List</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer" style="font-size: 0.75rem; color: var(--text-muted); text-align: center; border-top: 1px solid var(--color-border); padding-top: 1rem;">
+                Admin Fiduciary Token Valid
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content-wrapper">
+            <div class="container" style="padding: 0;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+                <div>
+                    <span class="badge">Node Admin OS v1.42</span>
+                    <h2>Fiduciary Security Command Center</h2>
+                </div>
+                <div style="text-align: right; font-size: 0.85rem; color: var(--text-muted);">
+                    Akamai Edge status: <strong style="color: var(--color-success);">SHIELD ACTIVE</strong><br>
+                    Encryption standard: <strong style="color: var(--text-primary);">AES-256-GCM Column Level</strong>
+                </div>
+            </div>
+
+            <!-- SECURITY CONTROL SHIELDS & THREAT LOGGER -->
+            <div class="grid-12" style="margin-bottom: 3rem;">
+                
+                <!-- WAF Shield Configurations (4 Columns) -->
+                <div class="panel" id="waf-controls-panel" style="grid-column: span 4; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3>Security Layers</h3>
+                        <p style="font-size: 0.85rem; margin-bottom: 2rem;">Configure active firewall and cryptographic filters.</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                            <!-- Control 1 -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem;">
+                                <div>
+                                    <strong style="font-size: 0.9rem; display: block;">Akamai WAF Edge Filter</strong>
+                                    <span style="font-size: 0.75rem; color: var(--text-muted);">Blocks SQLi & XSS payloads</span>
+                                </div>
+                                <input type="checkbox" id="waf-switch" checked style="accent-color: var(--color-accent); width: 18px; height: 18px; cursor: pointer;">
+                            </div>
+                            
+                            <!-- Control 2 -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem;">
+                                <div>
+                                    <strong style="font-size: 0.9rem; display: block;">Strict CSP Policy</strong>
+                                    <span style="font-size: 0.75rem; color: var(--text-muted);">Enforces source limits</span>
+                                </div>
+                                <input type="checkbox" id="csp-switch" checked style="accent-color: var(--color-accent); width: 18px; height: 18px; cursor: pointer;">
+                            </div>
+
+                            <!-- Control 3 -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 1rem;">
+                                <div>
+                                    <strong style="font-size: 0.9rem; display: block;">Geo-Fenced Access</strong>
+                                    <span style="font-size: 0.75rem; color: var(--text-muted);">Restricts non-Indian IPs</span>
+                                </div>
+                                <input type="checkbox" id="geo-switch" style="accent-color: var(--color-accent); width: 18px; height: 18px; cursor: pointer;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border); font-size: 0.8rem; color: var(--text-muted);">
+                        Security standard verified against JPMC regulatory directives.
+                    </div>
+                </div>
+
+                <!-- Live WAF Attack Mitigation Terminal (8 Columns) -->
+                <div class="panel" id="threat-logs-panel" style="grid-column: span 8;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>Active Threat Mitigation Log</h3>
+                        <span style="font-size: 0.75rem; color: var(--color-danger); font-family: monospace; animation: pulse 2s infinite;">● STREAMING SHIELD DATA</span>
+                    </div>
+                    <p style="font-size: 0.85rem; margin-bottom: 1.5rem;">
+                        Live console feed logging mitigated intrusion attempts blocked at the Akamai CDN edge nodes.
+                    </p>
+
+                    <!-- Terminal Box -->
+                    <div class="terminal-box" id="threat-terminal">
+                        <div class="log-entry log-info">[INFO] Node initialization complete. Fiduciary keys loaded.</div>
+                        <div class="log-entry log-info">[INFO] Akamai WAF Edge proxy synchronized. Listening for traffic.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAMILY OFFICE MANDATES LIST -->
+            <div class="panel" id="mandates-list-panel">
+                <h3>Monitored Fiduciary Family Mandates</h3>
+                <p style="font-size: 0.85rem; margin-bottom: 2rem;">
+                    Active multi-family mandates managed under the zero-trust ABAC partition.
+                </p>
+
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--color-border); color: var(--color-accent); text-transform: uppercase; font-size: 0.75rem;">
+                                <th style="padding: 0.75rem 0;">Mandate Context</th>
+                                <th style="padding: 0.75rem 0;">Monitored AUM</th>
+                                <th style="padding: 0.75rem 0;">Direct Allocation Share</th>
+                                <th style="padding: 0.75rem 0;">Risk Tolerance Target</th>
+                                <th style="padding: 0.75rem 0;">Cryptographic Key Status</th>
+                                <th style="padding: 0.75rem 0;">Fiduciary Signature (SHA-256)</th>
+                            </tr>
+                        </thead>
+                        <tbody style="color: var(--text-secondary);">
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 0.75rem 0; font-weight: bold; color: var(--text-primary);">Birla Family Mandate</td>
+                                <td style="padding: 0.75rem 0;">₹180.00 Crore</td>
+                                <td style="padding: 0.75rem 0; color: var(--color-success);">100% Direct Plan</td>
+                                <td style="padding: 0.75rem 0;">Capital Preservation</td>
+                                <td style="padding: 0.75rem 0; color: var(--color-success);">ENCRYPTED (AES-256)</td>
+                                <td style="padding: 0.75rem 0; font-family: monospace;" class="hash-text">0xbc72e89d021f92a3c89fa12b8d003e899b2e0f1b2c3d0e9a8f2930a84091e92d</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 0.75rem 0; font-weight: bold; color: var(--text-primary);">Tata Trust Mandate</td>
+                                <td style="padding: 0.75rem 0;">₹450.00 Crore</td>
+                                <td style="padding: 0.75rem 0; color: var(--color-success);">100% Direct Plan</td>
+                                <td style="padding: 0.75rem 0;">Long-Term Growth</td>
+                                <td style="padding: 0.75rem 0; color: var(--color-success);">ENCRYPTED (AES-256)</td>
+                                <td style="padding: 0.75rem 0; font-family: monospace;" class="hash-text">0xf98e72c83d81023a87263b15f7f3a8b29fa2e01b3cd982f05a93d8b27fe109c3</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.75rem 0; font-weight: bold; color: var(--text-primary);">Goenka Mandate</td>
+                                <td style="padding: 0.75rem 0;">₹120.00 Crore</td>
+                                <td style="padding: 0.75rem 0; color: var(--color-success);">100% Direct Plan</td>
+                                <td style="padding: 0.75rem 0;">Balanced Yield</td>
+                                <td style="padding: 0.75rem 0; color: var(--color-success);">ENCRYPTED (AES-256)</td>
+                                <td style="padding: 0.75rem 0; font-family: monospace;" class="hash-text">0x2e3b8a1f28b03e82fc9d2f09a820b16f12b8d003e89f29107f3a8b29c01fde20</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- 4. FOOTER -->
+    <footer class="app-footer">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <span>&copy; 2026 COSMAEON. All rights reserved.</span>
+            <span>JPMC Regulatory Shield Compliance Verified. <a href="index.html" style="color: var(--text-muted); text-decoration: underline; margin-right: 1rem; font-size: 0.75rem;">Homepage</a> <a href="dashboard.html" style="color: var(--text-muted); text-decoration: underline; font-size: 0.75rem;">Client Portal</a></span>
+        </div>
+    </footer>
+
+    <script src="diagnostics.js"></script>
+
+</body>
+</html>

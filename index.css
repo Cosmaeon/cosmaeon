@@ -1,0 +1,871 @@
+/* COSMAEON Visual Design System & Core Styles */
+
+/* 1. TYPOGRAPHY IMPORT */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@200;300;400;500;600;700&display=swap');
+
+/* 2. DESIGN SYSTEM VARIABLES */
+:root {
+    /* DEFAULT THEME: Classic Slate */
+    --color-bg-base: hsl(215, 15%, 8%);
+    --color-bg-panel: rgba(25, 29, 36, 0.75);
+    --color-bg-panel-hover: rgba(35, 40, 50, 0.9);
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-hover: rgba(255, 255, 255, 0.15);
+    --color-border-focus: hsl(210, 25%, 55%);
+    
+    /* Institutional Silver/Slate Accents */
+    --color-accent: hsl(210, 18%, 78%);
+    --color-accent-hover: hsl(210, 25%, 88%);
+    --color-accent-dim: rgba(255, 255, 255, 0.12);
+    --color-accent-glow: rgba(255, 255, 255, 0.2);
+    
+    /* Semantic Status Colors */
+    --color-danger: hsl(0, 72%, 55%);
+    --color-danger-dim: hsla(0, 72%, 55%, 0.08);
+    --color-success: hsl(142, 60%, 48%);
+    --color-success-dim: hsla(142, 60%, 48%, 0.08);
+    --color-warning: hsl(45, 100%, 50%);
+
+    /* Typography Scales */
+    --font-serif: 'Cinzel', 'Times New Roman', serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    
+    --text-primary: hsl(220, 15%, 96%);
+    --text-secondary: hsl(220, 10%, 75%);
+    --text-muted: hsl(220, 8%, 52%);
+    
+    /* Shadows & Effects */
+    --shadow-vault: 0 32px 80px -16px rgba(0, 0, 0, 0.85);
+    --shadow-glow: 0 0 40px -10px var(--color-accent-glow);
+    --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Input & Section variables */
+    --color-bg-input: rgba(0, 0, 0, 0.4);
+    --color-bg-input-focus: rgba(0, 0, 0, 0.6);
+    --color-bg-alt: hsla(220, 22%, 4%, 0.5);
+    --color-bg-navbar: rgba(8, 9, 12, 0.8);
+    --color-bg-console: rgba(0, 0, 0, 0.3);
+}
+
+/* 3. CORE RESET & BASE STYLING */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: var(--color-bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.7;
+    background-image: 
+        radial-gradient(circle at 10% 20%, hsla(220, 30%, 12%, 0.4) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, hsla(38, 30%, 8%, 0.15) 0%, transparent 50%);
+    background-attachment: fixed;
+    scrollbar-color: var(--color-border) var(--color-bg-base);
+    scrollbar-width: thin;
+}
+
+/* Custom Scrollbar configuration */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent);
+}
+
+/* 4. LAYOUT SYSTEM & GRIDS */
+.container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 3rem;
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+}
+
+.grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2.5rem;
+}
+
+@media (max-width: 1024px) {
+    .grid-12 {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 1.75rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .grid-12 {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+}
+
+/* 5. TYPOGRAPHY HIERARCHY */
+h1, h2, h3, h4 {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
+    text-wrap: balance;
+}
+
+body.font-editorial h1,
+body.font-editorial h2,
+body.font-editorial h3,
+body.font-editorial h4,
+.font-serif {
+    font-family: var(--font-serif);
+    letter-spacing: 0.06em;
+    font-weight: 400;
+}
+
+h1 {
+    font-size: 3.8rem;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h2 {
+    font-size: 2.4rem;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+}
+
+h3 {
+    font-size: 1.6rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-weight: 300;
+    color: var(--text-secondary);
+    margin-bottom: 1.75rem;
+    text-wrap: pretty;
+}
+
+a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+a:hover {
+    color: var(--color-accent);
+}
+
+/* 6. PREMIUM COMPONENT STYLING */
+
+/* Glassmorphic Panel Structure with Inner Border */
+.panel {
+    background: var(--color-bg-panel);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 3rem;
+    box-shadow: var(--shadow-vault);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+}
+
+.panel:hover {
+    border-color: var(--color-border-hover);
+    background: var(--color-bg-panel-hover);
+    box-shadow: var(--shadow-vault), var(--shadow-glow);
+    transform: translateY(-2px);
+}
+
+/* Premium Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.8rem;
+    padding: 1.1rem 2.8rem;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background-color: var(--color-accent);
+    color: var(--color-bg-base);
+    border: 1px solid var(--color-accent);
+    box-shadow: 0 4px 16px -4px var(--color-accent-glow);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    box-shadow: 0 8px 24px -4px var(--color-accent-glow);
+    transform: scale(1.02);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: var(--color-accent-dim);
+}
+
+/* Form Inputs (with modern validation) */
+.form-group {
+    margin-bottom: 2.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-family: var(--font-serif);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 0.85rem;
+    transition: var(--transition-smooth);
+}
+
+.form-control {
+    background-color: var(--color-bg-input);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    padding: 1.1rem 1.4rem;
+    transition: var(--transition-smooth);
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: var(--color-accent);
+    background-color: var(--color-bg-input-focus);
+    box-shadow: 0 0 0 2px var(--color-accent-dim);
+}
+
+/* Modern Validation States */
+.form-control:user-invalid {
+    border-color: var(--color-danger);
+    background-color: var(--color-danger-dim);
+}
+
+.form-control:user-valid {
+    border-color: var(--color-success);
+}
+
+/* Navigation Bar */
+.navbar {
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.8rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-bg-navbar);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+}
+
+.navbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+}
+
+.brand-logo svg {
+    width: 32px;
+    height: 32px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 3.5rem;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-links a {
+    font-family: var(--font-serif);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.nav-links a:hover {
+    color: var(--color-accent);
+}
+
+/* Section Spacing */
+.section {
+    padding: 8.5rem 0;
+}
+
+.section-alt {
+    background-color: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* Badge tags */
+.badge {
+    display: inline-block;
+    font-family: var(--font-serif);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent-dim);
+    background-color: var(--color-accent-dim);
+    padding: 0.4rem 1.1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+}
+
+/* Animated visual metrics charts in dashboard */
+.chart-container {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    border-bottom: 1px solid var(--color-border);
+    margin: 2.5rem 0;
+}
+
+.chart-bar {
+    position: absolute;
+    bottom: 0;
+    width: 36px;
+    background-color: var(--color-accent-dim);
+    border: 1px solid var(--color-accent);
+    border-bottom: none;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    transition: var(--transition-smooth);
+}
+
+.chart-bar:hover {
+    background-color: var(--color-accent);
+    box-shadow: 0 0 15px 0 var(--color-accent-glow);
+}
+
+.chart-bar::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    font-family: var(--font-sans);
+}
+
+/* Custom interactive tables styling */
+table {
+    border-spacing: 0;
+    width: 100%;
+}
+
+tr {
+    transition: var(--transition-smooth);
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* 7. DYNAMIC THEME & FONT SWITCHER OVERRIDES */
+body.theme-slate {
+    --color-bg-base: hsl(215, 15%, 8%);
+    --color-bg-panel: rgba(25, 29, 36, 0.75);
+    --color-bg-panel-hover: rgba(35, 40, 50, 0.9);
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-accent: hsl(210, 18%, 78%);
+    --color-accent-hover: hsl(210, 25%, 88%);
+    --color-accent-dim: rgba(255, 255, 255, 0.12);
+    --color-accent-glow: rgba(255, 255, 255, 0.2);
+}
+
+body.theme-light {
+    --color-bg-base: hsl(210, 15%, 96%); /* Crisp off-white background */
+    --color-bg-panel: hsl(0, 0%, 100%); /* Pure white panels */
+    --color-bg-panel-hover: hsl(0, 0%, 100%);
+    --color-border: hsl(210, 10%, 88%); /* Sophisticated thin border line */
+    --color-border-hover: hsl(210, 10%, 80%);
+    --color-border-focus: hsl(211, 74%, 31%);
+    
+    --color-accent: hsl(211, 74%, 31%); /* Official J.P. Morgan Blue (#154C8A) */
+    --color-accent-hover: hsl(211, 80%, 25%);
+    --color-accent-dim: hsla(211, 74%, 31%, 0.06);
+    --color-accent-glow: hsla(211, 74%, 31%, 0.15);
+    
+    /* WCAG Status Color Overrides with enhanced contrast on light backgrounds */
+    --color-success: hsl(142, 60%, 32%);
+    --color-success-dim: hsla(142, 60%, 32%, 0.06);
+    --color-danger: hsl(0, 72%, 40%);
+    --color-danger-dim: hsla(0, 72%, 40%, 0.06);
+    --color-warning: hsl(35, 85%, 32%);
+    
+    --text-primary: hsl(215, 30%, 8%); /* Clean off-black */
+    --text-secondary: hsl(215, 15%, 28%); /* Slate charcoal */
+    --text-muted: hsl(215, 10%, 50%);
+    
+    /* Soft shadows instead of heavy dark theme smudges */
+    --shadow-vault: 0 16px 48px -12px rgba(15, 23, 42, 0.08), 0 4px 12px -4px rgba(15, 23, 42, 0.03);
+    --shadow-glow: 0 0 30px -10px hsla(211, 74%, 31%, 0.15);
+
+    /* Form & Section variables for light theme */
+    --color-bg-input: hsl(0, 0%, 99%);
+    --color-bg-input-focus: hsl(0, 0%, 100%);
+    --color-bg-alt: hsl(210, 15%, 92%);
+    --color-bg-navbar: rgba(255, 255, 255, 0.85);
+    --color-bg-console: hsl(210, 10%, 93%);
+    
+    /* Override body background gradient for light theme (replaces dark smudges) */
+    background-image: 
+        radial-gradient(circle at 10% 20%, hsla(211, 74%, 31%, 0.03) 0%, transparent 60%),
+        radial-gradient(circle at 90% 80%, hsla(38, 40%, 60%, 0.03) 0%, transparent 60%);
+}
+
+/* Ensure h1 headers are dark and high-contrast in light theme instead of invisible white */
+body.theme-light h1 {
+    background: linear-gradient(180deg, var(--text-primary) 40%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body.theme-sovereign {
+    --color-bg-base: hsl(220, 22%, 5%);
+    --color-bg-panel: rgba(16, 18, 23, 0.7);
+    --color-bg-panel-hover: rgba(24, 27, 35, 0.85);
+    --color-border: rgba(255, 255, 255, 0.06);
+    --color-border-hover: rgba(255, 255, 255, 0.12);
+    --color-border-focus: hsl(38, 40%, 55%);
+    
+    --color-accent: hsl(38, 38%, 56%);
+    --color-accent-hover: hsl(38, 44%, 64%);
+    --color-accent-dim: hsla(38, 38%, 56%, 0.12);
+    --color-accent-glow: hsla(38, 38%, 56%, 0.25);
+}
+
+/* Font Overrides */
+body.font-editorial {
+    --font-serif: 'Cinzel', serif;
+    --font-sans: 'Georgia', serif;
+}
+
+body.font-technical {
+    --font-serif: 'Inter', sans-serif;
+    --font-sans: 'Inter', sans-serif;
+}
+
+body.font-mono {
+    --font-serif: 'Courier New', monospace;
+    --font-sans: 'Courier New', monospace;
+}
+
+/* =========================================================================
+   8. APPLICATION SIDEBAR & FLEX LAYOUT SYSTEM
+   ========================================================================= */
+.app-layout {
+    display: flex;
+    min-height: calc(100vh - 78px); /* Height minus navbar */
+    position: relative;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: var(--color-bg-panel);
+    border-right: 1px solid var(--color-border);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 1rem;
+    flex-shrink: 0;
+    overflow-x: hidden;
+}
+
+/* Sidebar navigation links */
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-item a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1.25rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    transition: var(--transition-smooth);
+}
+
+.sidebar-item a:hover,
+.sidebar-item.active a {
+    background-color: var(--color-accent-dim);
+    color: var(--color-accent);
+}
+
+.sidebar-item svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+/* Collapsed Sidebar State */
+.sidebar.collapsed {
+    width: 72px;
+    padding: 2rem 0.5rem;
+}
+
+.sidebar.collapsed .sidebar-item a span {
+    display: none; /* Hide labels */
+}
+
+.sidebar.collapsed .sidebar-item a {
+    justify-content: center;
+    padding: 0.85rem;
+}
+
+.sidebar.collapsed .sidebar-footer {
+    display: none; /* Hide footer text */
+}
+
+/* Main Content Wrapper */
+.main-content-wrapper {
+    flex-grow: 1;
+    padding: 3rem;
+    transition: var(--transition-smooth);
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Sidebar Toggle Hamburger Button in Navbar */
+.sidebar-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--text-secondary);
+    padding: 0.45rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+}
+
+.sidebar-toggle-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: var(--color-accent-dim);
+}
+
+.sidebar-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+    .app-layout {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        padding: 1rem;
+    }
+    .sidebar.collapsed {
+        display: none;
+    }
+    .main-content-wrapper {
+        padding: 1.5rem;
+    }
+}
+
+/* App Footer styling rules (always dark themed for visual page weight termination) */
+.app-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 3rem 0;
+    background-color: hsl(220, 20%, 6%) !important;
+    font-size: 0.85rem;
+    color: hsl(220, 10%, 60%) !important;
+}
+
+.app-footer a {
+    color: hsl(220, 10%, 75%) !important;
+    text-decoration: underline;
+}
+
+.app-footer a:hover {
+    color: var(--color-accent) !important;
+}
+
+/* =========================================================================
+   9. BRAND ANIMATIONS & LOGO FLOW (Brand Agencies / Webdesigners)
+   ========================================================================= */
+.brand-logo svg path {
+    stroke-dasharray: 250;
+    stroke-dashoffset: 500;
+    animation: flow-stroke 8s linear infinite;
+}
+
+@keyframes flow-stroke {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.brand-logo svg circle {
+    transform-origin: center;
+    animation: pulse-dot 3s infinite ease-in-out;
+}
+
+.brand-logo svg circle:nth-child(2) { animation-delay: 0.5s; }
+.brand-logo svg circle:nth-child(3) { animation-delay: 1.0s; }
+.brand-logo svg circle:nth-child(4) { animation-delay: 1.5s; }
+.brand-logo svg circle:nth-child(5) { animation-delay: 2.0s; }
+
+@keyframes pulse-dot {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 1;
+        fill: var(--color-accent);
+    }
+}
+
+/* =========================================================================
+   10. DRAG & DROP STATEMENT PARSER (CTO / App Consultancies)
+   ========================================================================= */
+.file-drop-zone {
+    border: 2px dashed var(--color-border);
+    border-radius: 6px;
+    padding: 2.25rem 1.5rem;
+    text-align: center;
+    background-color: var(--color-bg-panel);
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.file-drop-zone:hover,
+.file-drop-zone.dragover {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-dim);
+    box-shadow: var(--shadow-glow);
+}
+
+.file-drop-icon {
+    font-size: 1.8rem;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+    display: block;
+    user-select: none;
+}
+
+.file-drop-text {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.file-drop-subtext {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    display: block;
+}
+
+.parser-progress {
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-border);
+    border-radius: 2px;
+    margin-top: 1rem;
+    overflow: hidden;
+    display: none;
+}
+
+.parser-progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: var(--color-accent);
+    transition: width 0.1s ease;
+}
+
+/* =========================================================================
+   11. REAL-TIME TELEMETRY FEED (Analytics / CTO)
+   ========================================================================= */
+.telemetry-feed-box {
+    background-color: var(--color-bg-console);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    padding: 1.25rem;
+    height: 220px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    line-height: 1.6;
+    margin-top: 1rem;
+}
+
+.telemetry-entry {
+    margin-bottom: 0.4rem;
+    border-bottom: 1px dashed var(--color-border);
+    padding-bottom: 0.35rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.telemetry-time {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.telemetry-event {
+    color: var(--color-accent);
+    font-weight: bold;
+}
+
+.telemetry-desc {
+    color: var(--text-primary);
+    text-align: right;
+    word-break: break-all;
+}
+
+/* =========================================================================
+   12. CRYPTOGRAPHIC VERIFICATION (JPMC / Compliance)
+   ========================================================================= */
+.verify-btn {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--text-primary);
+    cursor: pointer;
+    font-family: var(--font-serif);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: var(--transition-smooth);
+}
+
+.verify-btn:hover {
+    border-color: var(--color-success);
+    color: var(--color-success);
+    background-color: var(--color-success-dim);
+}
+
+.hash-text {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.metric-pulse {
+    animation: border-pulse 1s ease-out;
+}
+
+@keyframes border-pulse {
+    0% {
+        box-shadow: 0 0 0 0px var(--color-accent-glow);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 15px 4px var(--color-accent-glow);
+        transform: scale(1.025);
+    }
+    100% {
+        box-shadow: 0 0 0 0px var(--color-accent-glow);
+        transform: scale(1);
+    }
+}
+
+

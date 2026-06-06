@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSMAEON Client Portal — Fiduciary Portfolio Analytics</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        /* Extra styles specific to high-density dashboard terminal */
+        .stat-card {
+            padding: 1.5rem;
+            border-left: 3px solid var(--color-accent);
+        }
+        .ai-chat-window {
+            height: 250px;
+            overflow-y: auto;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-bg-console);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            scrollbar-width: thin;
+        }
+        .ai-message {
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .ai-message.system {
+            color: var(--color-accent);
+            border-left: 2px solid var(--color-accent);
+            padding-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button type="button" class="sidebar-toggle-btn" id="btn-sidebar-toggle" aria-label="Toggle Sidebar">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <a href="index.html" class="brand-logo">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width: 32px; height: 32px;">
+                        <path d="M75 25 C 65 15, 35 15, 25 25 C 12 38, 12 62, 25 75 C 35 85, 65 85, 75 75" stroke="url(#paint0_linear)" stroke-width="8" stroke-linecap="round"/>
+                        <rect x="47" y="32" width="6" height="36" rx="3" fill="url(#paint0_linear)" />
+                        <defs>
+                            <linearGradient id="paint0_linear" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#e5c185"/>
+                                <stop offset="0.5" stop-color="#c2a670"/>
+                                <stop offset="1" stop-color="#9a8152"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span>COSMAEON</span>
+                </a>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                <span style="font-size: 0.8rem; color: var(--text-secondary); background: var(--color-bg-alt); padding: 0.35rem 0.75rem; border-radius: 4px; border: 1px solid var(--color-border);">
+                    Mandate: <strong>Birla Family Office</strong>
+                </span>
+                <a href="index.html" style="font-family: var(--font-serif); font-size: 0.8rem; text-transform: uppercase;">Log Out</a>
+                
+                <!-- Quick Theme & Font Switcher -->
+                <div style="display: flex; gap: 0.35rem; align-items: center; border-left: 1px solid var(--color-border); padding-left: 1.25rem;">
+                    <span style="font-size: 0.7rem; color: var(--text-muted); cursor: default;" title="Layout Controls">⚙</span>
+                    <select id="theme-select" style="background: var(--color-bg-base); border: 1px solid var(--color-border); color: var(--text-secondary); font-size: 0.65rem; padding: 0.2rem 0.4rem; cursor: pointer; outline: none; border-radius: 4px;">
+                        <option value="slate">Slate</option>
+                        <option value="sovereign">Sovereign</option>
+                        <option value="light">Light</option>
+                    </select>
+                    <select id="font-select" style="background: var(--color-bg-base); border: 1px solid var(--color-border); color: var(--text-secondary); font-size: 0.65rem; padding: 0.2rem 0.4rem; cursor: pointer; outline: none; border-radius: 4px;">
+                        <option value="editorial">Serif</option>
+                        <option value="technical">Sans</option>
+                        <option value="mono">Mono</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. MAIN WORKSPACE WITH SIDEBAR -->
+    <div class="app-layout">
+        <!-- Collapsible Left Sidebar -->
+        <aside class="sidebar" id="app-sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active">
+                    <a href="#overview-metrics">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                        <span>Overview</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#stress-tester-panel">
+                        <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                        <span>Stress Tester</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#ai-copilot-panel">
+                        <svg viewBox="0 0 24 24"><path d="M21 15c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h14l4 4V15z"/></svg>
+                        <span>AI Copilot</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#compliance-log-panel">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                        <span>Compliance Log</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#vault-console-panel">
+                        <svg viewBox="0 0 24 24"><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1z"/></svg>
+                        <span>Vault Database</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer" style="font-size: 0.75rem; color: var(--text-muted); text-align: center; border-top: 1px solid var(--color-border); padding-top: 1rem;">
+                Birla Fiduciary Key Active
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content-wrapper">
+            <div class="container" style="padding: 0;">
+            
+            <!-- HEADER BARS -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <span class="badge">Sovereign-Grade Oversight</span>
+                    <h2>Portfolio Intelligence Dashboard</h2>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); text-align: right;">
+                    Last audit completed: <strong style="color: var(--text-primary);">Today, 10:14 AM</strong><br>
+                    Data Connection: <strong style="color: var(--color-success);">Fiduciary Vault Sync (AES-256)</strong>
+                </div>
+            </div>
+
+            <!-- 3. PORTFOLIO KEY METRICS -->
+            <div class="grid-12" id="overview-metrics" style="margin-bottom: 3rem;">
+                <div class="panel stat-card" style="grid-column: span 3;">
+                    <span class="form-label" style="font-size: 0.7rem;">Total Monitored Capital</span>
+                    <h2 style="margin: 0.5rem 0 0.25rem 0;">₹180.00 Cr</h2>
+                    <span style="font-size: 0.8rem; color: var(--text-secondary);">Across 4 Custody Vaults</span>
+                </div>
+                
+                <div class="panel stat-card" style="grid-column: span 3; border-left-color: var(--color-success);">
+                    <span class="form-label" style="font-size: 0.7rem;">Distribution Conflict Drag</span>
+                    <h2 style="margin: 0.5rem 0 0.25rem 0; color: var(--color-success);">0.00%</h2>
+                    <span style="font-size: 0.8rem; color: var(--text-secondary);">100% Direct Allocations</span>
+                </div>
+
+                <div class="panel stat-card" style="grid-column: span 3; border-left-color: var(--color-accent);">
+                    <span class="form-label" style="font-size: 0.7rem;">Annual Stress-Test Yield</span>
+                    <h2 style="margin: 0.5rem 0 0.25rem 0;">6.42%</h2>
+                    <span style="font-size: 0.8rem; color: var(--text-secondary);">Net of Inflation Forecast</span>
+                </div>
+
+                <div class="panel stat-card" style="grid-column: span 3; border-left-color: var(--color-accent);">
+                    <span class="form-label" style="font-size: 0.7rem;">Fiduciary Retainer</span>
+                    <h2 style="margin: 0.5rem 0 0.25rem 0;">Flat Fee</h2>
+                    <span style="font-size: 0.8rem; color: var(--text-secondary);">No commissions, no kickbacks</span>
+                </div>
+            </div>
+
+            <!-- 4. ANALYTICS & INTERACTIVE REGIME SIMULATION -->
+            <div class="grid-12" style="margin-bottom: 3rem;">
+                
+                <!-- ALLOCATION & REGIME STRESS TEST -->
+                <div class="panel" id="stress-tester-panel" style="grid-column: span 8;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                        <h3>Asset Allocation Stress-Test</h3>
+                        
+                        <div style="display: flex; gap: 0.75rem; align-items: center;">
+                            <label for="regime-selector" class="form-label" style="margin: 0; font-size: 0.75rem;">Select Scenario:</label>
+                            <select id="regime-selector" class="form-control" style="padding: 0.5rem 1rem; font-size: 0.85rem; width: auto; background-color: var(--color-bg-base);">
+                                <option value="growth">Expansionary Growth</option>
+                                <option value="inflation">Inflation Shock</option>
+                                <option value="liquidity">Liquidity Squeeze</option>
+                                <option value="stagflation">Stagflation Regime</option>
+                            </select>
+                            <button id="btn-simulate-regime" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem; border-radius: 4px;">Simulate</button>
+                        </div>
+                    </div>
+
+                    <p style="font-size: 0.85rem;">
+                        Simulate the performance of this family's multi-asset capital under specific macroeconomic stress models.
+                    </p>
+
+                    <!-- Chart Container -->
+                    <div class="chart-container">
+                        <!-- Bar 1: Public Equity -->
+                        <div class="chart-bar" style="left: 10%; height: 80%;" data-label="80% — STABLE"></div>
+                        <!-- Bar 2: Fixed Income -->
+                        <div class="chart-bar" style="left: 35%; height: 45%;" data-label="45% — STABLE"></div>
+                        <!-- Bar 3: Real Estate -->
+                        <div class="chart-bar" style="left: 60%; height: 60%;" data-label="60% — STABLE"></div>
+                        <!-- Bar 4: Cash Equivalents -->
+                        <div class="chart-bar" style="left: 85%; height: 20%;" data-label="20% — STABLE"></div>
+                    </div>
+
+                    <!-- Alert message container -->
+                    <div id="stress-alert-box" style="display: none; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1rem; background-color: var(--color-danger-dim); border: 1px solid var(--color-danger); border-radius: 4px;">
+                        <span style="font-weight: bold; color: var(--color-danger); font-size: 0.85rem;">[STRESS DETECTED]</span>
+                        <span style="font-size: 0.85rem; color: var(--text-primary);">
+                            Selected macro regime triggers asset correlation alerts in the public equity holdings. AI Copilot suggests checking the large-cap mutual fund concentration overlap.
+                        </span>
+                    </div>
+
+                    <div style="display: flex; gap: 1.5rem; margin-top: 2rem; font-size: 0.8rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                        <span style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 8px; height: 8px; background-color: var(--color-accent); border-radius: 50%;"></span>
+                            Public Equity (₹85 Cr)
+                        </span>
+                        <span style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 8px; height: 8px; background-color: var(--color-accent); border-radius: 50%;"></span>
+                            Fixed Income (₹45 Cr)
+                        </span>
+                        <span style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 8px; height: 8px; background-color: var(--color-accent); border-radius: 50%;"></span>
+                            Real Estate & Alt (₹30 Cr)
+                        </span>
+                        <span style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 8px; height: 8px; background-color: var(--color-accent); border-radius: 50%;"></span>
+                            Liquid Cash (₹20 Cr)
+                        </span>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE: AI PORTFOLIO COPILOT -->
+                <div class="panel" id="ai-copilot-panel" style="grid-column: span 4; display: flex; flex-direction: column;">
+                    <h3>AI Portfolio Copilot</h3>
+                    <p style="font-size: 0.85rem; margin-bottom: 1rem;">
+                        Ask natural language queries regarding allocation correlation, overlap risk, or regulatory updates.
+                    </p>
+
+                    <!-- Chat Window -->
+                    <div class="ai-chat-window" id="ai-chat-window">
+                        <div class="ai-message system">
+                            <strong>COSMAEON Intelligence:</strong> Ready for portfolio diagnostic queries. Fiduciary audit is green.
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <form id="ai-query-form" onsubmit="return false;" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                        <input type="text" id="ai-query-input" class="form-control" style="flex-grow: 1; padding: 0.75rem 1rem; font-size: 0.9rem;" placeholder="e.g. Check portfolio overlaps...">
+                        <button type="button" id="btn-submit-query" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 0.75rem; border-radius: 4px;">Ask</button>
+                    </form>
+
+                    <!-- Drag & Drop Intake Box -->
+                    <div id="statement-drop-zone" class="file-drop-zone">
+                        <span class="file-drop-icon">⇪</span>
+                        <span class="file-drop-text">Secure Statement Intake</span>
+                        <span class="file-drop-subtext">Drag & drop PDF statement to parse locally</span>
+                        <div class="parser-progress" id="parser-progress">
+                            <div class="parser-progress-bar" id="parser-progress-bar"></div>
+                        </div>
+                    </div>
+
+                    <!-- Document Vault quick access links -->
+                    <div style="margin-top: 1rem; border-top: 1px solid var(--color-border); padding-top: 1rem;">
+                        <h4 style="font-size: 0.9rem; margin-bottom: 0.75rem;">Secure Document Vault</h4>
+                        <ul style="list-style: none; font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.5rem;" id="document-vault-list">
+                            <li><a href="#" style="color: var(--color-accent);">↓ Q1_2026_Fiduciary_Audit.pdf</a></li>
+                            <li><a href="#" style="color: var(--color-accent);">↓ Sector_Concentration_Report.pdf</a></li>
+                            <li><a href="#" style="color: var(--color-accent);">↓ Signed_CIO_Mandate_2026.pdf</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Analytics Telemetry Feed -->
+                    <div style="margin-top: 1.5rem; border-top: 1px solid var(--color-border); padding-top: 1.5rem;">
+                        <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-accent); display: flex; justify-content: space-between; align-items: center;">
+                            <span>Analytics Telemetry Feed</span>
+                            <span style="font-size: 0.65rem; color: var(--text-muted); font-family: monospace;">Amplitude v4.1</span>
+                        </h4>
+                        <div class="telemetry-feed-box" id="telemetry-feed">
+                            <div class="telemetry-entry">
+                                <span class="telemetry-time">10:14:02</span>
+                                <span class="telemetry-event">session_start</span>
+                                <span class="telemetry-desc">{"auth":"FIDO2","operator":"09"}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. ABAC & AUDIT LOGS DISPLAY -->
+            <div class="panel" id="compliance-log-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="margin: 0;">Sovereign Audit Trail & Compliance Log</h3>
+                        <p style="font-size: 0.85rem; margin: 0.25rem 0 0 0; color: var(--text-secondary);">
+                            All database writes, portfolio queries, and diagnostic calculations are logged on an immutable compliance chain.
+                        </p>
+                    </div>
+                    <button type="button" id="btn-verify-ledger" class="verify-btn">Verify Chain Integrity</button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; text-align: left; font-size: 0.85rem; border-collapse: collapse; min-width: 600px;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--color-border); color: var(--text-secondary); text-transform: uppercase; font-size: 0.75rem; font-family: var(--font-serif);">
+                                <th style="padding: 0.75rem 0;">Timestamp</th>
+                                <th style="padding: 0.75rem 0;">Authorized User</th>
+                                <th style="padding: 0.75rem 0;">IP Address</th>
+                                <th style="padding: 0.75rem 0;">Action Performed</th>
+                                <th style="padding: 0.75rem 0;">Cryptographic Block Hash</th>
+                                <th style="padding: 0.75rem 0;">ABAC Validation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="compliance-log-body" style="color: var(--text-secondary);">
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 0.75rem 0; font-family: monospace;">2026-06-06 10:14:22</td>
+                                <td style="padding: 0.75rem 0;">V. Birla (Trustee)</td>
+                                <td style="padding: 0.75rem 0; font-family: monospace;">103.220.44.11</td>
+                                <td style="padding: 0.75rem 0;">Simulated Macro Stress-Test ("Liquidity Squeeze")</td>
+                                <td style="padding: 0.75rem 0; font-family: monospace;" class="hash-text">0x7f3a8b29c01fde20e189a05943bc928f09d81d2f98e72c83d81023a87263b15f</td>
+                                <td style="padding: 0.75rem 0; color: var(--color-success);">[APPROVED]</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 0.75rem 0; font-family: monospace;">2026-06-06 09:32:05</td>
+                                <td style="padding: 0.75rem 0;">K. Kumar (CIO Partner)</td>
+                                <td style="padding: 0.75rem 0; font-family: monospace;">122.161.80.20</td>
+                                <td style="padding: 0.75rem 0;">Decrypted Column ("equity_largecap_isin")</td>
+                                <td style="padding: 0.75rem 0; font-family: monospace;" class="hash-text">0x8a920f1b2c3d0e9a8f2930a84091e92d8f92a30b49f82c730e928fa2d8b2e1f9</td>
+                                <td style="padding: 0.75rem 0; color: var(--color-success);">[APPROVED]</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 0.75rem 0; font-family: monospace;">2026-06-06 08:00:14</td>
+                                <td style="padding: 0.75rem 0;">System Scheduler</td>
+                                <td style="padding: 0.75rem 0; font-family: monospace;">127.0.0.1 (Local)</td>
+                                <td style="padding: 0.75rem 0;">Re-indexed Research Note Vector Embeddings</td>
+                                <td style="padding: 0.75rem 0; font-family: monospace;" class="hash-text">0x12f92a83bc2d9fa2e0b1c93a8df2f0102e3b8a1f28b03e82fc9d2f09a820b16f</td>
+                                <td style="padding: 0.75rem 0; color: var(--color-success);">[APPROVED]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 6. SECURE DATABASE VAULT CONSOLE (B2B & ADMIN FEATURE) -->
+            <div class="panel" id="vault-console-panel" style="margin-top: 3rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <span class="badge" style="font-size: 0.65rem; padding: 0.25rem 0.75rem;">Fiduciary Vault Console</span>
+                        <h3>Vault Secure Database Console</h3>
+                    </div>
+                    
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <label class="form-label" style="margin: 0; font-size: 0.75rem;" for="decrypt-toggle">Fiduciary Key Decrypt:</label>
+                        <input type="checkbox" id="decrypt-toggle" style="accent-color: var(--color-accent); width: 16px; height: 16px; cursor: pointer;">
+                    </div>
+                </div>
+
+                <p style="font-size: 0.85rem; margin-bottom: 2rem;">
+                    Simulate real-time PostgreSQL database access under zero-trust ABAC policy rules. Sensitive fields are column-encrypted using AES-256-GCM. Toggle the key to authorize fiduciary decryption.
+                </p>
+
+                <!-- Query Input Area -->
+                <div class="grid-12" style="gap: 1.5rem; margin-bottom: 2rem;">
+                    <div class="form-group" style="grid-column: span 9; margin: 0;">
+                        <label for="db-query-input" class="form-label" style="font-size: 0.7rem;">Active Query Statement</label>
+                        <input type="text" id="db-query-input" class="form-control" value="SELECT id, email, role, mfa_secret FROM users WHERE family_id = 'Birla_ID';" style="font-family: monospace; font-size: 0.85rem;">
+                    </div>
+                    
+                    <div style="grid-column: span 3; display: flex; align-items: flex-end;">
+                        <button type="button" id="btn-run-query" class="btn btn-primary" style="width: 100%; padding: 0.9rem 1.5rem; font-size: 0.75rem; border-radius: 4px;">Run Console Query</button>
+                    </div>
+                </div>
+
+                <!-- Query Presets -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; font-size: 0.8rem;">
+                    <span style="color: var(--text-muted);">Quick Query templates:</span>
+                    <a href="#" class="db-preset" data-query="SELECT id, email, role, mfa_secret FROM users WHERE family_id = 'Birla_ID';" style="color: var(--color-accent); text-decoration: underline;">SELECT * FROM users</a>
+                    <span>|</span>
+                    <a href="#" class="db-preset" data-query="SELECT id, name, asset_class, current_unit_price, expense_ratio FROM assets WHERE is_direct_plan = FALSE;" style="color: var(--color-accent); text-decoration: underline;">SELECT * FROM assets</a>
+                    <span>|</span>
+                    <a href="#" class="db-preset" data-query="SELECT id, action, affected_table, ip_address FROM audit_logs LIMIT 3;" style="color: var(--color-accent); text-decoration: underline;">SELECT * FROM audit_logs</a>
+                </div>
+
+                <!-- Database Result Table -->
+                <div id="db-console-output" style="border: 1px solid var(--color-border); padding: 1.5rem; background-color: var(--color-bg-console); font-family: monospace; font-size: 0.8rem; border-radius: 4px; overflow-x: auto;">
+                    <span style="color: var(--text-muted);">-- Query results will render here in real-time --</span>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <footer class="app-footer" style="position: relative; z-index: 10;">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <span>&copy; 2026 COSMAEON. All rights reserved.</span>
+            <span>Zero Trust Architecture Enabled. <a href="admin.html" style="color: var(--text-muted); text-decoration: underline; margin-left: 0.5rem; font-size: 0.75rem;">Operator Portal</a></span>
+        </div>
+    </footer>
+
+    <script src="diagnostics.js"></script>
+
+</body>
+</html>
